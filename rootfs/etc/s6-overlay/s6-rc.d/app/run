@@ -1,0 +1,8 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+
+set -e
+
+cd /app
+
+exec node build/index.js

@@ -1,0 +1,20 @@
+name: Proxy With Auth
+description: Proxy requests while adding authorization credentials from a different service
+version: 1.0.0
+slug: proxy_with_auth
+url: https://github.com/miguelrjim/ProxyWithAuth
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armhf
+  - armv7
+  - i386
+schema:
+  proxies:
+    - auth: list(authentik)
+      options: str
+      path: str
+      target: str
+options:
+  proxies: []
