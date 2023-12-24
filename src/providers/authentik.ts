@@ -2,7 +2,7 @@ import axios from 'axios';
 import { RequestHandler } from 'express';
 
 interface AuthentikOptions {
-  url: string;
+  domain: string;
   clientId: string;
   username: string;
   password: string;
@@ -18,7 +18,7 @@ let authInfo: AuthInfo | undefined;
 async function fetchToken(options: AuthentikOptions) {
   if (!authInfo || Date.now() > authInfo.expires) {
     const { data, status } = await axios.postForm(
-      options.url,
+      `https://${options.domain}/application/o/token/`,
       {
         grant_type: 'client_credentials',
         client_id: options.clientId,
@@ -38,8 +38,8 @@ async function fetchToken(options: AuthentikOptions) {
 }
 
 export async function configureAuthentik(options: AuthentikOptions): Promise<RequestHandler> {
-  if ([options.url, options.clientId, options.username, options.password].find(v => !v) !== undefined) {
-    throw('url, clientId, username & password have to be specified for authentik');
+  if ([options.domain, options.clientId, options.username, options.password].find(v => !v) !== undefined) {
+    throw('domain, clientId, username & password have to be specified for authentik');
   }
   await fetchToken(options);
   return async (req, res, next) => {
